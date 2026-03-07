@@ -1,0 +1,27 @@
+### --- Frontend --- ###
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/npm-debug.log*
+
+### --- Backend --- ###
+# Environments
+venv/
+env/
+.env
+__pycache__/
+*.py[cod]
+
+# Database
+db.sqlite3
+
+# Media/Static
+media/
+static/
+
+### --- Editors --- ###
+.DS_Store
+.vscode/
+.idea/
