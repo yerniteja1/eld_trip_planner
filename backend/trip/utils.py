@@ -36,3 +36,44 @@ def geocode_location(place_name):
     except Exception as e:
         print(f"Geocoding error for '{place_name}': {e}")
         return None
+
+def get_route(origin, destination):
+    """
+    Takes two coordinate dicts {'lat': ..., 'lng': ...}
+    Returns distance in miles, duration in hours, and route geometry
+    """
+    url = "https://api.openrouteservice.org/v2/directions/driving-car"
+    
+    headers = {
+        "Authorization": ORS_API_KEY,
+        "Content-Type": "application/json"
+    }
+    
+    body = {
+        "coordinates": [
+            [origin["lng"], origin["lat"]],
+            [destination["lng"], destination["lat"]]
+        ]
+    }
+    
+    try:
+        response = requests.post(url, json=body, headers=headers)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        route = data["routes"][0]
+        segment = route["segments"][0]
+        
+        distance_meters = segment["distance"]
+        duration_seconds = segment["duration"]
+        
+        return {
+            "distance_miles": round(distance_meters * 0.000621371, 2),
+            "duration_hours": round(duration_seconds / 3600, 2),
+            "geometry": route["geometry"]
+        }
+    
+    except Exception as e:
+        print(f"Routing error: {e}")
+        return None
