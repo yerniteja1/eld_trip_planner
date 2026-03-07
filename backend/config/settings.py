@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,15 +22,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ap@0*250d+r-zhsv79g8^n@=m&e9_8-eu22g!na!163x%b3eqy"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'
+ORS_API_KEY = os.getenv('ORS_API_KEY')
 
 ALLOWED_HOSTS = []
 
 
 # Application definition
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
+    "trip",
 ]
 
 MIDDLEWARE = [
