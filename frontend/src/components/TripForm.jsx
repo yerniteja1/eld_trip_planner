@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-export default function TripForm({ onResult }) {
+export default function TripForm({ onResult, onLoading }) {
   const [form, setForm] = useState({
     current_location: '',
     pickup_location: '',
@@ -18,6 +18,7 @@ export default function TripForm({ onResult }) {
   const handleSubmit = async () => {
     setError('')
     setLoading(true)
+    onLoading && onLoading(true)
 
     try {
       const res = await axios.post(
@@ -29,6 +30,7 @@ export default function TripForm({ onResult }) {
       setError(err.response?.data?.error || 'Something went wrong')
     } finally {
       setLoading(false)
+      onLoading && onLoading(false)
     }
   }
 
@@ -116,7 +118,7 @@ export default function TripForm({ onResult }) {
           cursor: loading ? 'not-allowed' : 'pointer'
         }}
       >
-        {loading ? 'Calculating...' : 'Calculate Route & ELD Logs'}
+        {loading ? '⏳ Calculating...' : '🚛 Calculate Route & ELD Logs'}
       </button>
     </div>
   )
