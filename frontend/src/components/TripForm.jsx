@@ -34,7 +34,7 @@ export default function TripForm({ onResult, onLoading }) {
     onLoading && onLoading(true)
 
     try {
-      const res = await axios.post('http://127.0.0.1:8000/api/plan-trip/', {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/plan-trip/`, {
         ...locations,
         cycle_used_hours: cycleHours,
       })
