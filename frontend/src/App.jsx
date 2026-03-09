@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import TripForm from './components/TripForm'
-import MapView  from './components/MapView'
-import ELDLog   from './components/ELDLog'
+import TripForm  from './components/TripForm'
+import MapView   from './components/MapView'
+import ELDLog    from './components/ELDLog'
+import StopsList from './components/StopsList'
 
 function App() {
   const [result, setResult] = useState(null)
@@ -28,14 +29,14 @@ function App() {
             background:   '#fff',
             padding:      '20px',
             borderRadius: '10px',
-            boxShadow:    '0 2px 8px rgba(0,0,0,0.1)'
+            boxShadow:    '0 2px 8px rgba(0,0,0,0.1)',
           }}>
             <h2 style={{ marginBottom: '12px' }}>📋 Trip Summary</h2>
             <div style={{
               display:             'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',
               gap:                 '16px',
-              textAlign:           'center'
+              textAlign:           'center',
             }}>
               {[
                 { label: 'Total Days',    value: result.summary.days },
@@ -46,12 +47,12 @@ function App() {
                 <div key={item.label} style={{
                   background:   '#f0f2f5',
                   padding:      '16px',
-                  borderRadius: '8px'
+                  borderRadius: '8px',
                 }}>
                   <div style={{
                     fontSize:   '28px',
                     fontWeight: '700',
-                    color:      '#1a1a2e'
+                    color:      '#1a1a2e',
                   }}>
                     {item.value}
                   </div>
@@ -62,6 +63,12 @@ function App() {
               ))}
             </div>
           </div>
+
+          {/* Day by day stops */}
+          <StopsList
+            schedule={result.schedule}
+            summary={result.summary}
+          />
 
           {/* ELD Log Sheets */}
           <div style={{ marginTop: '30px' }}>
@@ -78,25 +85,25 @@ function App() {
               padding:      '12px 16px',
               borderRadius: '8px',
               fontSize:     '13px',
-              flexWrap:     'wrap'
+              flexWrap:     'wrap',
             }}>
               {[
-                { color: '#22c55e', label: 'Off Duty'            },
-                { color: '#3b82f6', label: 'Sleeper Berth'       },
-                { color: '#ef4444', label: 'Driving'             },
-                { color: '#f59e0b', label: 'On Duty (Not Driving)'},
+                { color: '#22c55e', label: 'Off Duty'             },
+                { color: '#3b82f6', label: 'Sleeper Berth'        },
+                { color: '#ef4444', label: 'Driving'              },
+                { color: '#f59e0b', label: 'On Duty (Not Driving)' },
               ].map(item => (
                 <span key={item.label} style={{
                   display:    'flex',
                   alignItems: 'center',
-                  gap:        '6px'
+                  gap:        '6px',
                 }}>
                   <span style={{
                     width:        '14px',
                     height:       '14px',
                     background:   item.color,
                     borderRadius: '3px',
-                    display:      'inline-block'
+                    display:      'inline-block',
                   }}/>
                   {item.label}
                 </span>
