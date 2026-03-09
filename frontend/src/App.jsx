@@ -70,7 +70,7 @@ export default function App() {
               ELD Trip Planner
             </div>
             <div style={{ fontSize: '11px', opacity: 0.6 }}>
-              FMCSA HOS Compliant • 70hr/8day Rule
+              FMCSA HOS Compliant
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@ export default function App() {
       <div style={{
         maxWidth: '960px',
         margin:   '0 auto',
-        padding:  '28px 20px 60px',
+        padding:  '0 20px 60px',
       }}>
 
         {/* Trip Form */}

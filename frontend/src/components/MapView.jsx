@@ -102,15 +102,10 @@ export default function MapView({ routeData, locations }) {
 
   return (
     <div style={{
-      marginTop:    '30px',
       borderRadius: '10px',
       overflow:     'hidden',
       boxShadow:    '0 2px 8px rgba(0,0,0,0.15)'
     }}>
-      <h2 style={{ padding: '12px 16px', background: '#1a1a2e', color: '#fff' }}>
-        🗺️ Route Map
-      </h2>
-
       <MapContainer
         center={[39.5, -98.35]}
         zoom={5}
