@@ -1,4 +1,4 @@
-# Constants
+# ── Constants ──────────────────────────────────────────
 MAX_DRIVING_PER_SHIFT    = 11      # hours driving per shift
 MAX_WINDOW_PER_SHIFT     = 14      # hours from shift start
 REQUIRED_REST            = 10      # hours off duty
