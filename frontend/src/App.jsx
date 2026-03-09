@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import TripForm from './components/TripForm'
 import MapView  from './components/MapView'
+import ELDLog   from './components/ELDLog'
 
 function App() {
   const [result, setResult] = useState(null)
@@ -21,7 +22,7 @@ function App() {
             locations={result.locations}
           />
 
-          {/* Summary */}
+          {/* Summary cards */}
           <div style={{
             marginTop:    '30px',
             background:   '#fff',
@@ -37,10 +38,10 @@ function App() {
               textAlign:           'center'
             }}>
               {[
-                { label: 'Total Days',     value: result.summary.days },
-                { label: 'Total Miles',    value: result.route.total_miles },
-                { label: 'Driving Hours',  value: result.summary.total_driving },
-                { label: 'Rest Hours',     value: result.summary.total_rest },
+                { label: 'Total Days',    value: result.summary.days },
+                { label: 'Total Miles',   value: result.route.total_miles },
+                { label: 'Driving Hours', value: result.summary.total_driving },
+                { label: 'Rest Hours',    value: result.summary.total_rest },
               ].map(item => (
                 <div key={item.label} style={{
                   background:   '#f0f2f5',
@@ -60,6 +61,62 @@ function App() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* ELD Log Sheets */}
+          <div style={{ marginTop: '30px' }}>
+            <h2 style={{ marginBottom: '16px' }}>
+              📄 ELD Daily Logs ({result.summary.days} days)
+            </h2>
+
+            {/* Legend */}
+            <div style={{
+              display:      'flex',
+              gap:          '20px',
+              marginBottom: '16px',
+              background:   '#fff',
+              padding:      '12px 16px',
+              borderRadius: '8px',
+              fontSize:     '13px',
+              flexWrap:     'wrap'
+            }}>
+              {[
+                { color: '#22c55e', label: 'Off Duty'            },
+                { color: '#3b82f6', label: 'Sleeper Berth'       },
+                { color: '#ef4444', label: 'Driving'             },
+                { color: '#f59e0b', label: 'On Duty (Not Driving)'},
+              ].map(item => (
+                <span key={item.label} style={{
+                  display:    'flex',
+                  alignItems: 'center',
+                  gap:        '6px'
+                }}>
+                  <span style={{
+                    width:        '14px',
+                    height:       '14px',
+                    background:   item.color,
+                    borderRadius: '3px',
+                    display:      'inline-block'
+                  }}/>
+                  {item.label}
+                </span>
+              ))}
+            </div>
+
+            {/* One log per day */}
+            {result.schedule.map((daySegments, i) => {
+              const dayMiles = daySegments.reduce(
+                (sum, s) => sum + (s.miles || 0), 0
+              )
+              return (
+                <ELDLog
+                  key={i}
+                  dayNumber={i + 1}
+                  daySegments={daySegments}
+                  totalMiles={dayMiles}
+                />
+              )
+            })}
           </div>
         </>
       )}
