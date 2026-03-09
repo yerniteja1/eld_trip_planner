@@ -14,9 +14,9 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -25,9 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = True
-ORS_API_KEY = os.getenv('ORS_API_KEY')
-
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+ORS_API_KEY = os.getenv('ORS_API_KEY')
+ORS_BASE_URL = "https://api.openrouteservice.org"
+
+# pre-define the specific endpoints
+ORS_GEOCODE_URL = f"{ORS_BASE_URL}/geocode/search"
+ORS_DIRECTIONS_URL = f"{ORS_BASE_URL}/v2/directions/driving-car"
 
 # Application definition
 

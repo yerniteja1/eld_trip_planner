@@ -1,13 +1,12 @@
 import requests
+from django.conf import settings
 
-ORS_API_KEY = "ORS_API_KEY"
+ORS_API_KEY = settings.ORS_API_KEY
+ORS_GEOCODE_URL = settings.ORS_GEOCODE_URL
+ORS_DIRECTIONS_URL = settings.ORS_DIRECTIONS_URL
 
 def geocode_location(place_name):
-    """
-    Takes a place name like 'Chicago, IL'
-    Returns {'lat': 41.85, 'lng': -87.65, 'display_name': 'Chicago, IL'}
-    """
-    url = "https://api.openrouteservice.org/geocode/search"
+    """ Takes a place name like 'Chicago, IL' Returns {'lat': 41.85, 'lng': -87.65, 'display_name': 'Chicago, IL'} """
     
     params = {
         "api_key": ORS_API_KEY,
@@ -16,7 +15,7 @@ def geocode_location(place_name):
     }
     
     try:
-        response = requests.get(url, params=params)
+        response = requests.get(ORS_GEOCODE_URL, params=params)
         response.raise_for_status()
         
         data = response.json()
@@ -36,13 +35,12 @@ def geocode_location(place_name):
     except Exception as e:
         print(f"Geocoding error for '{place_name}': {e}")
         return None
-
+  
 def get_route(origin, destination):
     """
     Takes two coordinate dicts {'lat': ..., 'lng': ...}
     Returns distance in miles, duration in hours, and route geometry
     """
-    url = "https://api.openrouteservice.org/v2/directions/driving-car"
     
     headers = {
         "Authorization": ORS_API_KEY,
@@ -57,7 +55,7 @@ def get_route(origin, destination):
     }
     
     try:
-        response = requests.post(url, json=body, headers=headers)
+        response = requests.post(ORS_DIRECTIONS_URL, json=body, headers=headers)
         response.raise_for_status()
         
         data = response.json()
@@ -71,9 +69,10 @@ def get_route(origin, destination):
         return {
             "distance_miles": round(distance_meters * 0.000621371, 2),
             "duration_hours": round(duration_seconds / 3600, 2),
-            "geometry": route["geometry"]
+            "geometry": route["geometry"]  # encoded polyline for map
         }
     
     except Exception as e:
         print(f"Routing error: {e}")
         return None
+    

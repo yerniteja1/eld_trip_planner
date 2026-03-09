@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 
-const ORS_API_KEY = 'ORS_API_KEY'
+const ORS_API_KEY = import.meta.env.VITE_ORS_API_KEY
+const ORS_AUTOCOMPLETE_URL = 'https://api.openrouteservice.org/geocode/autocomplete'
 
 export default function LocationInput({ label, value, onChange, placeholder }) {
   const [query,       setQuery]       = useState(value || '')
@@ -38,7 +39,7 @@ export default function LocationInput({ label, value, onChange, placeholder }) {
       setLoading(true)
       try {
         const res = await fetch(
-          `https://api.openrouteservice.org/geocode/autocomplete` +
+          ORS_AUTOCOMPLETE_URL +
           `?api_key=${ORS_API_KEY}` +
           `&text=${encodeURIComponent(val)}` +
           `&boundary.country=US` +
